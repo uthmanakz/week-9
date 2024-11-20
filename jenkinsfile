@@ -38,14 +38,30 @@ pipeline {
 
 
 
-        stage ('testing ssh') {
+        stage ('SSH/Deploying NGINX') {
             steps {
                 script {
                     sshagent (credentials : ['SSH_PRIVATE_KEY']) {
                         sh '''
                         cd dev
                         nginx_node=`terraform output | grep nginx | awk -F'"' '{print $2}'`
-                        ssh -o StrictHostKeyChecking=no ec2-user@$nginx_node 'pwd'
+                        ssh -o StrictHostKeyChecking=no ec2-user@$nginx_node 'sudo yum install nginx -y' 
+                        ssh -o StrictHostKeyChecking=no ec2-user@$nginx_node 'sudo service nginx start'
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage ('SSH/Installing python') {
+            steps {
+                script {
+                    sshagent (credentials : ['SSH_PRIVATE_KEY']) {
+                        sh '''
+                        cd dev
+                        python_node = `terraform ouput | grep python | awk -F'"' '{print $2}'`
+                        cd code
+                        scp -o StrictHostKeyChecking=no hello.py ec2-user@$python_node:/tmp/
                         '''
                     }
                 }
