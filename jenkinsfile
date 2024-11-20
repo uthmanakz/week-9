@@ -35,13 +35,7 @@ pipeline {
 
         }
 
-        stage ('deploying nginx') {
-            steps {
-                sh '''
-                cd
-                '''
-            }
-        }
+
 
 
         stage ('testing ssh') {
@@ -51,7 +45,7 @@ pipeline {
                         sh '''
                         cd dev
                         nginx_node= `terraform output | grep nginx | awk -F\" '{print $2}'`
-                        ssh -o StrictHostKeyChecking=no ec2-user@$nginx_node 'pwd'
+                        ssh -o StrictHostKeyChecking=no ec2-user@"$nginx_node" 'pwd'
                         '''
                     }
                 }
