@@ -43,9 +43,7 @@ pipeline {
             }
         }
 
-        pipeline {
-    agent any
-    stages {
+
         stage ('testing ssh') {
             steps {
                 script {
@@ -60,5 +58,4 @@ pipeline {
         }
     }
 }
-    }
-}
+    
