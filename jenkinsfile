@@ -53,22 +53,7 @@ pipeline {
             }
         }
 
-        stage ('SSH/Installing python') {
-            steps {
-                script {
-                    sshagent (credentials : ['SSH_PRIVATE_KEY']) {
-                        sh '''
-                        cd dev
-                        python_node=`terraform output | grep python | awk -F'"' '{print $2}'`
-                        ssh -o StrictHostKeyChecking=no ec2-user@$python_node 'sudo yum install -y python3'
-                        cd ../code
-                        scp -o StrictHostKeyChecking=no hello.py ec2-user@$python_node:/tmp/
-                        ssh -o StrictHostKeyChecking=no ec2-user@$python_node 'sudo /usr/bin/python3 /tmp/hello.py'
-                        '''
-                    }
-                }
-            }
-        }
+        
     }
 }
     
