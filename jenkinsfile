@@ -45,7 +45,7 @@ pipeline {
                         sh '''
                         cd dev
                         nginx_node=`terraform output | grep nginx | awk -F'"' '{print $2}'`
-                        ssh -o StrictHostKeyChecking=no ec2-user@$nginx_node 'sudo yum install nginx -y' && 'sudo service nginx start'
+                        ssh -o StrictHostKeyChecking=no ec2-user@$nginx_node 'sudo yum install nginx -y && sudo service nginx start'
                         '''
                     }
                 }
