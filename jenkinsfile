@@ -5,9 +5,16 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials ('AWS_SECRET_ACCESS_KEY')
     }
 
+    parameters {
+        choice ( choices : 'ALL\nINFRA\nAPPS' . description : "this is to set conditions for pipeline" , name : "deploy_options")
+    }
+
     stages {
         stage ('terraform init') {
             steps {
+                 script {
+                echo "${params.deploy_options}"
+            }
                 sh '''
                 cd dev
                 terraform init
@@ -39,6 +46,9 @@ pipeline {
 
 
         stage ('SSH/Deploying NGINX') {
+            when {
+                expression {params.deploy_options == 'APPS'}
+            }
             steps {
                 script {
                     sshagent (credentials : ['SSH_PRIVATE_KEY']) {
