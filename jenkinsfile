@@ -47,7 +47,7 @@ pipeline {
 
         stage ('SSH/Deploying NGINX') {
             when {
-                expression {params.deploy_options == 'APPS'}
+                expression {params.deploy_options == 'APPS' || params.deploy_options == 'ALL' }
             }
             steps {
                 script {
