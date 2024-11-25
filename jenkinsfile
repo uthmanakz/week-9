@@ -6,7 +6,7 @@ pipeline {
     }
 
     parameters {
-        choice ( choices : 'ALL\nINFRA\nAPPS' . description : "this is to set conditions for pipeline" , name : "deploy_options")
+        choice ( choices : 'ALL\nINFRA\nAPPS' , description : "this is to set conditions for pipeline" , name : "deploy_options")
     }
 
     stages {
