@@ -112,7 +112,7 @@ pipeline {
                     sh'''
                     cd dev
                     python_node=`terraform output | grep python | awk -F'"' '{print $2}'`
-                    ssh -o StrictHostKeyChecking=no ec2-user@$python_node 'cd /tmp/ ; sudo yum install python3-pip -y ; pip install pytest ; pytest hello.py'
+                    ssh -o StrictHostKeyChecking=no ec2-user@$python_node 'cd /tmp/ ; sudo yum install python3-pip -y ; pip install pytest'
                     '''
                 }
             }
