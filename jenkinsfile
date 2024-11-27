@@ -106,25 +106,7 @@ pipeline {
             }
         }
 
-        stage ('Notififcation') {
-            when {
-                expression {params.deploy_options == 'ALL'}
-            }
-            steps {
-                script {
-                    withCredentials ([string (credentialsId : 'SSH_TOKEN' , variable : 'SSH_ID')]) {
-                        sh '''
-                       curl -X POST \
-                       -H 'Authorization: Bearer ${SSH_ID}'\
-                       -H 'Content-Type: application/json'\
-                       --data '{"channel": "devops-masterclass-2024" , "text" : "Hello, testing"}' \
-                       https://slack.com//api/chat.postMessage
-                       '''
-                        
-                    }
-                }
-            }
-        }
+       
     }
 }
     
