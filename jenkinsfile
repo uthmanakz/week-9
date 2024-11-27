@@ -134,20 +134,18 @@ pipeline {
                        '''
                         
                     }
+                    post {
+            success{
+                echo 'Build succeeded:)'
+            }
+            failure {
+                echo 'Buid Failed:('
+            }
                 }
             }
         }
-
- post {
-    success{
-        echo 'Build Successed'
-    }
-    failure {
-        echo 'Build Failed'
-    }
-    }
+        
     }
 }
     
 
- 
