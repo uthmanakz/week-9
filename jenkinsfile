@@ -9,8 +9,10 @@ pipeline {
         choice ( choices : 'ALL\nINFRA\nAPPS' , description : "this is to set conditions for pipeline" , name : "deploy_options")
     }
 
+    
     stages {
-        stage ('terraform init') {
+        
+         stage ('terraform init') {
             steps {
                  script {
                 echo "${params.deploy_options}"
@@ -21,6 +23,23 @@ pipeline {
                 '''
             }
 
+        }
+
+         stage ('Terraform format') {
+            steps {
+                sh'''
+                cd dev
+                terraform fmt
+                '''
+            }
+        }
+        stage ('terraform validate') {
+            steps {
+                sh'''
+                cd dev 
+                terraform validate
+                '''
+            }
         }
 
         stage ('terraform plan') {
@@ -86,7 +105,29 @@ pipeline {
                 }
             }
         }
-        
+
+        stage ('Notififcation') {
+            when {
+                expression {params.deploy_options == 'ALL'}
+            }
+            steps {
+                script {
+                    withCredentials ([string (credentialsId : 'SSH_TOKEN' , variable : 'SSH_ID')]) {
+                        sh '''
+                       curl -X POST \
+                       -H 'Authorization: Bearer ${SSH_ID}'\
+                       -H 'Content-Type: application/json'\
+                       --data '{"channel": "devops-masterclass-2024" , "text" : "Hello, testing"}' \
+                       https://slack.com//api/chat.postMessage
+                       '''
+                        
+                    }
+                }
+            }
+        }
     }
 }
     
+
+
+
