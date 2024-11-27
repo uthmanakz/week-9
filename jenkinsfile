@@ -24,6 +24,9 @@ pipeline {
         }
 
         stage ('terraform plan') {
+            when {
+                expression {params.deploy_options == 'INFRA' || params.deploy_options == 'ALL'}
+            }
             steps {
                 sh '''
                 cd dev
@@ -33,6 +36,9 @@ pipeline {
 
         }
         stage ('terraform apply') {
+            when {
+                expression {params.deploy_options == 'INFRA' || params.deploy_options == 'ALL'}
+            }
             steps {
                 sh '''
                 cd dev
@@ -63,6 +69,9 @@ pipeline {
         }
 
         stage ('SSH/Installing python') { 
+            when {
+                expression {params.deploy_options == 'APPS' || params.deploy_options == 'ALL'}
+            }
             steps {
                 script {
                     sshagent (credentials : ['SSH_PRIVATE_KEY']) {
@@ -77,6 +86,7 @@ pipeline {
                 }
             }
         }
+        
     }
 }
     
