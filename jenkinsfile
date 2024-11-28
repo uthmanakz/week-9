@@ -117,20 +117,16 @@ pipeline {
                 }
             }
         }
-          
-    }
-    post {
-        always {
-             stage ('Notififcation') {
+        stage ('Notififcation') {
             when {
                 expression {params.deploy_options == 'ALL'}
             }
             steps {
                 script {
-                    withCredentials ([string (credentialsId : 'SSH_TOKEN' , variable : 'SSH_ID')]) {
+                    withCredentials ([string (credentialsId : 'SLACK_TOKEN' , variable : 'SLACK_ID')]) {
                         sh '''
                        curl -X POST \
-                       -H 'Authorization: Bearer ${SSH_ID}'\
+                       -H 'Authorization: Bearer ${SLACK_ID}'\
                        -H 'Content-Type: application/json'\
                        --data '{"channel": "devops-masterclass-2024" , "text" : "Hello, testing"}' \
                        https://slack.com//api/chat.postMessage
@@ -141,8 +137,21 @@ pipeline {
                 }
             }
         }
+          
+    }
+    post {
+        success {
+            echo 'build succeeded:)'
+        }
+        failure {
+            echo 'build failed:('
+        }
+        always {
+            echo 'pipeline complete'
         }
     }
+
+    
     
 }
     
