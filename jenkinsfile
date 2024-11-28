@@ -119,8 +119,9 @@ pipeline {
         }
           
     }
-
-    stage ('Notififcation') {
+    post {
+        always {
+             stage ('Notififcation') {
             when {
                 expression {params.deploy_options == 'ALL'}
             }
@@ -140,15 +141,6 @@ pipeline {
                 }
             }
         }
-    post {
-        success {
-            echo 'yep it was successful!'
-        }
-        failure {
-            'nope it failed:()'
-        }
-        always {
-            echo'pipeline complete'
         }
     }
     
