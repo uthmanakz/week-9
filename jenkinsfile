@@ -119,7 +119,7 @@ pipeline {
         }
         stage ('Notififcation') {
             when {
-                expression {params.deploy_options == 'ALL'}
+                expression { true }
             }
             steps {
                 script {
