@@ -137,7 +137,7 @@ pipeline {
                 }
         }
     }
-     post {
+    post {
         success {
             script {
                     withCredentials ([string (credentialsId : 'SLACK_TOKEN' , variable : 'SLACK_ID')]) {
