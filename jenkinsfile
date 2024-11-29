@@ -152,6 +152,14 @@ pipeline {
             
                 }
         }
+
+        always {
+            script {
+            sh'''
+            rm -rf *
+            '''
+            }
+        }
     }
      
             
