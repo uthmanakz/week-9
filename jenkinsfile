@@ -122,13 +122,12 @@ pipeline {
     }
     post {
         failure {
-            
-                script {
+            script {
                     withCredentials ([string (credentialsId : 'SLACK_TOKEN' , variable : 'SLACK_ID')]) {
                         sh '''
                        curl -X POST \
                        -H 'Authorization: Bearer ${SLACK_ID}'\
-                       -H 'Content-Type: application/json'\
+                       -H 'Content-Type: application/json; charset=utf-8'\
                        --data '{"channel": "devops-masterclass-2024" , "text" : "Build, failed"}' \
                        https://slack.com//api/chat.postMessage
                        '''
@@ -136,11 +135,11 @@ pipeline {
                     }
             
                 }
-            }
+        }
+    }
 
-    } 
+     
             
             
 }
-    
-
+   
