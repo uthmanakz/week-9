@@ -26,6 +26,9 @@ pipeline {
         }
 
          stage ('Terraform format') {
+            when {
+                expression {params.deploy_options == 'INFRA' || params.deploy_options == 'ALL'}
+            }
             steps {
                 sh'''
                 cd dev
@@ -34,6 +37,9 @@ pipeline {
             }
         }
         stage ('terraform validate') {
+            when {
+                expression {params.deploy_options == 'INFRA' ||  params.deploy_options == 'ALL'}
+            }
             steps {
                 sh'''
                 cd dev 
@@ -153,13 +159,7 @@ pipeline {
                 }
         }
 
-        always {
-            script {
-            sh'''
-            rm -rf *
-            '''
-            }
-        }
+    
     }
      
             
