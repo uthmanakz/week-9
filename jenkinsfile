@@ -120,7 +120,7 @@ pipeline {
                 script {
                     sshagent (credentials : ['SSH_PRIVATE_KEY']) {
                         sh '''
-                        python_node2=`terraform output | grep python2 | awk -F '"' '{print $2}'`
+                        python_node2=`terraform output | grep python2 | awk -F'"' '{print $2}'`
                         ssh -o StrictHostKeyChecking=no ec2-user@$python_node2 'sudo yum install -y python3'
                         cd ../code
                         scp -o StrictHostKeyChecking=no hello.py ec2-user@$python_node2:/tmp/
