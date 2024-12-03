@@ -126,7 +126,7 @@ pipeline {
             }
         }
 
-        stage ('testing pytest') {
+        stage ('testing pytest1') {
             steps {
                 sshagent (credentials : ['SSH_PRIVATE_KEY']) {
                     sh'''
@@ -138,7 +138,7 @@ pipeline {
             }
         }
 
-         stage ('testing pytest') {
+         stage ('testing pytest2') {
             steps {
                 sshagent (credentials : ['SSH_PRIVATE_KEY']) {
                     sh'''
