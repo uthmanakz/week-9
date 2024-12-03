@@ -102,10 +102,10 @@ pipeline {
                     sshagent (credentials : ['SSH_PRIVATE_KEY']) {
                         sh '''
                         cd dev
-                        python_node=`terraform output | grep python | awk -F'"' '{print $2}'`
-                        ssh -o StrictHostKeyChecking=no ec2-user@$python_node 'sudo yum install -y python3'
+                        python_node1=`terraform output | grep python1 | awk -F'"' '{print $2}'`
+                        ssh -o StrictHostKeyChecking=no ec2-user@$python_node1 'sudo yum install -y python3'
                         cd ../code
-                        scp -o StrictHostKeyChecking=no hello.py ec2-user@$python_node:/tmp/
+                        scp -o StrictHostKeyChecking=no hello.py ec2-user@$python_node1:/tmp/
                         '''
                     }
                 }
@@ -117,8 +117,8 @@ pipeline {
                 sshagent (credentials : ['SSH_PRIVATE_KEY']) {
                     sh'''
                     cd dev
-                    python_node=`terraform output | grep python | awk -F'"' '{print $2}'`
-                    ssh -o StrictHostKeyChecking=no ec2-user@$python_node 'cd /tmp/ ; sudo yum install python3-pip -y ; pip install pytest ; pytest hello.py'
+                    python_node2=`terraform output | grep python2 | awk -F'"' '{print $2}'`
+                    ssh -o StrictHostKeyChecking=no ec2-user@$python_node2 'cd /tmp/ ; sudo yum install python3-pip -y ; pip install pytest ; pytest hello.py'
                     '''
                 }
             }
