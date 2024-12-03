@@ -113,8 +113,11 @@ pipeline {
         }
 
         stage('SSH/Installing python2') {
+            when {
+                expression {params.deploy_option == 'APP' || params.deploy_option == 'ALL'}
+            }
             steps {
-                scripts {
+                script {
                     shhagent (credentials : ['SSH_PRIAVTE_KEY']) {
                         sh '''
                         python_node2= `terraform output | grep python2 | awk -F '"' '{print $2}'`
