@@ -10,7 +10,7 @@ pipeline {
     }
 
     
-    stages {
+        stages {
         
          stage ('terraform init') {
             steps {
@@ -55,7 +55,7 @@ pipeline {
             steps {
                 sh '''
                 cd dev
-                terraform plan
+                terraform plan -var-file dev.tfvars
                 '''
             }
 
@@ -67,7 +67,7 @@ pipeline {
             steps {
                 sh '''
                 cd dev
-                terraform apply -auto-approve
+                terraform apply -auto-approve -var-file dev.tfvars
                 '''
             }
 
