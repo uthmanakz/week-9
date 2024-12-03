@@ -23,5 +23,4 @@ node_name = "python2"
 nginx_sg_name = "nginx_sg_name2"
 python_sg_name = "python_sg_2"
 vpc_sg_id = module.python2.python_sg_id
-
 }
