@@ -23,7 +23,6 @@ resource "aws_security_group" "python_sg" {
   ingress {
     from_port       = 22
     to_port         = 22
-    cidr_blocks      = ["0.0.0.0/0"]
     protocol        = "tcp"
     security_groups = [aws_security_group.nginx_sg.id]
   }
@@ -31,7 +30,6 @@ resource "aws_security_group" "python_sg" {
   ingress {
     from_port       = 65432
     to_port         = 65432
-    cidr_blocks      = ["0.0.0.0/0"]
     protocol        = "tcp"
     security_groups = [aws_security_group.nginx_sg.id]
   }
@@ -45,10 +43,6 @@ resource "aws_security_group" "python_sg" {
 
 
 }
-
-
-
-
 
 
 resource "aws_security_group" "nginx_sg" {
