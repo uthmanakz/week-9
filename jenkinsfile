@@ -93,7 +93,7 @@ pipeline {
             }
         }
 
-        stage ('SSH/Installing python') { 
+        stage ('SSH/Installing python1') { 
             when {
                 expression {params.deploy_options == 'APPS' || params.deploy_options == 'ALL'}
             }
@@ -112,7 +112,33 @@ pipeline {
             }
         }
 
+        stage('SSH/Installing python2') {
+            steps {
+                scripts {
+                    shhagent (credentials : ['SSH_PRIAVTE_KEY']) {
+                        sh '''
+                        python_node2= `terraform output | grep python2 | awk -F '"' '{print $2}'`
+                        ssh -o StrictHostKeyChecking=no ec2-user@$python_node2 'sudo yum install -y python3'
+                        scp -o StrictHostKeyChecking=no hello.py ec2-user@$python_node2:/tmp/
+                        '''
+                    }
+                }
+            }
+        }
+
         stage ('testing pytest') {
+            steps {
+                sshagent (credentials : ['SSH_PRIVATE_KEY']) {
+                    sh'''
+                    cd dev
+                    python_node1=`terraform output | grep python1 | awk -F'"' '{print $2}'`
+                    ssh -o StrictHostKeyChecking=no ec2-user@$python_node1 'cd /tmp/ ; sudo yum install python3-pip -y ; pip install pytest ; pytest hello.py'
+                    '''
+                }
+            }
+        }
+
+         stage ('testing pytest') {
             steps {
                 sshagent (credentials : ['SSH_PRIVATE_KEY']) {
                     sh'''
