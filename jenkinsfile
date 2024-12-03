@@ -114,7 +114,7 @@ pipeline {
 
         stage('SSH/Installing python2') {
             when {
-                expression {params.deploy_option == 'APP' || params.deploy_option == 'ALL'}
+                expression {params.deploy_options == 'APP' || params.deploy_options == 'ALL'}
             }
             steps {
                 script {
