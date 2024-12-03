@@ -118,7 +118,7 @@ pipeline {
             }
             steps {
                 script {
-                    shhagent (credentials : ['SSH_PRIAVTE_KEY']) {
+                    sshagent (credentials : ['SSH_PRIAVTE_KEY']) {
                         sh '''
                         python_node2= `terraform output | grep python2 | awk -F '"' '{print $2}'`
                         ssh -o StrictHostKeyChecking=no ec2-user@$python_node2 'sudo yum install -y python3'
