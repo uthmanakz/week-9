@@ -33,6 +33,6 @@ output "PYTHON1_PUBLIC_DNS" {
     value = module.python1.public_dns
 }
 
-output "NGINX1_PUBLIC_IP" {
+output "NGINX_PUBLIC_IP" {
     value = module.nginx1.public_ip 
 }

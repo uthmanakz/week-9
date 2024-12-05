@@ -88,7 +88,7 @@ resource "aws_route53_record" "domain_name" {
   name    = "bobisouruncle.com"
   type    = "A"
   ttl     = 300
-  records = [module.nginx1.public_ip]
+  records = [module.nginx1.NGINX_PUBLIC_IP]
 }
 
 
