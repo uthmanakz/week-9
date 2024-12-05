@@ -15,18 +15,24 @@ output "nginx_sg_id1" {
 } */
 
 
-output "PYTHON1_PUBLIC_DNS" {
-  value = aws_instance.python_node1.public_dns
-}
 
-output "PYTHON2_PUBLIC_DNS" {
-  value = aws_instance.python_node2.public_dns
-}
-
-output "NGINX1_PUBLIC_DNS" {
-  value = aws_instance.nginx_node.public_dns
-}
 
 output "NGINX_SG_ID" {
   value = aws_security_group.nginx_sg.id
+}
+
+output "NGINX1_PUBLIC_DNS" {
+    value = module.nginx1.public_dns
+}
+
+output "PYTHON2_PUBLIC_DNS" {
+    value = module.python2.public_dns
+}
+
+output "PYTHON1_PUBLIC_DNS" {
+    value = module.python1.public_dns
+}
+
+output "NGINX1_PUBLIC_IP" {
+    value = module.nginx1.public_ip 
 }

@@ -31,29 +31,21 @@ resource "aws_security_group" "python_sg" {
 
 
 }
+module "python1" {
+    source = "../uthman-module"
+    node_name = "PYTHON_NODE1"
+    sg_id = [aws_security_group.python_sg.id]
 
-resource "aws_instance" "python_node1" {
-  ami                    = "ami-0b2ed2e3df8cf9080"
-  instance_type          = "t2.micro"
-  key_name               = "uthmanakz"
-  vpc_security_group_ids = [aws_security_group.python_sg.id]
-
-  tags = {
-    Name = "PYTHON_NODE1"
-  }
 }
 
-resource "aws_instance" "python_node2" {
-  ami                    = "ami-0b2ed2e3df8cf9080"
-  instance_type          = "t2.micro"
-  key_name               = "uthmanakz"
-  vpc_security_group_ids = [aws_security_group.python_sg.id]
 
-  tags = {
-    Name = "PYTHON_NODE2"
-  }
+
+module "python2" {
+    source = "../uthman-module"
+    node_name = "PYTHON_NODE2"
+    sg_id = [aws_security_group.python_sg.id]
+
 }
-
 
 resource "aws_security_group" "nginx_sg" {
 
@@ -83,15 +75,21 @@ resource "aws_security_group" "nginx_sg" {
 
 
 }
-resource "aws_instance" "nginx_node" {
-  ami                    = "ami-0b2ed2e3df8cf9080"
-  instance_type          = "t2.micro"
-  key_name               = "uthmanakz"
-  vpc_security_group_ids = [aws_security_group.nginx_sg.id]
 
-  tags = {
-    Name = "NGINX_NODE"
-  }
+module "nginx1" {
+    source = "../uthman-module"
+    node_name = "NGINX_NODE"
+    sg_id = [aws_security_group.nginx_sg.id]
+
 }
+
+resource "aws_route53_record" "domain_name" {
+  zone_id = "Z027624519PFOMPX9KS5H"
+  name    = "bobisouruncle.com"
+  type    = "A"
+  ttl     = 300
+  records = [module.nginx1.public_ip]
+}
+
 
 
